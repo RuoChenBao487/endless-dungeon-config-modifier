@@ -1,0 +1,107 @@
+# Dungeon Rule Language example for the 16.0 dungeon game.
+version 1
+
+catalog {
+    biome normal
+    biome ice
+    biome lava
+    biome poison
+    biome tomb
+    biome snow
+
+    enemy soldier
+    enemy jumper
+    enemy brute
+    enemy tank
+    enemy ice_walker
+    enemy ice_guard
+    enemy snowball
+    enemy fire_bat
+    enemy lava_slime
+    enemy poison_mushroom
+    enemy swamp_frog
+    enemy skeleton
+    enemy ghost
+    enemy zombie
+    enemy wind_spirit
+
+    elite bone_carrier scene tomb
+    elite frost_wolf scene snow
+    elite troll_soldier scene snow
+    elite troll_hunter scene snow
+    elite troll_howler scene snow
+
+    boss bone_dragon scene tomb
+    boss frost_colossus scene snow
+    boss troll_chief scene snow
+
+    affix berserk
+    affix freezing
+    affix regeneration
+}
+
+room_rule combat {
+    allow_nested true
+}
+
+room_rule boss {
+    allow_nested false
+}
+
+room_rule event {
+    allow_nested false
+}
+
+region tomb {
+    title "亡灵墓穴"
+    length 3..5
+    normal_gap 0.9
+    normal_gap_step 0.1
+
+    enemy_pool {
+        skeleton weight 22
+        ghost weight 18
+        zombie weight 18
+        ice_guard weight 8
+        brute weight 5
+        tank weight 3
+    }
+
+    nested church {
+        chance 0.15
+        extend 2
+        once_per_region true
+        allowed_room_rules [combat]
+    }
+
+    nested great_tomb {
+        chance 0.15
+        extend 2
+        once_per_region true
+        allowed_room_rules [combat]
+    }
+}
+
+region snow {
+    title "暴雪山脉"
+    length 3..5
+    normal_gap 0.9
+    normal_gap_step 0.1
+
+    enemy_pool {
+        wind_spirit weight 20
+        snowball weight 20
+        ice_walker weight 10
+        ice_guard weight 10
+        brute weight 6
+        tank weight 4
+    }
+}
+
+nested temple {
+    parent snow
+    chance 0.2
+    extend 3
+    once_per_region true
+    allowed_room_rules [combat]
+}
